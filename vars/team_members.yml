@@ -1,0 +1,14 @@
+team_members:
+    - name: "Adding CJ to postgres team"
+      teamname: postgres
+      role: admin
+      user: 
+        username: opsgenie@cjestel.net
+
+    - name: "Adding anand to postgres team"
+      teamname: dataops
+      role: admin
+      user: 
+        username: anand@ireachsol.com
+
+

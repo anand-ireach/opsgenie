@@ -1,0 +1,9 @@
+rotation:
+      - name: "First rotation"
+        scheduleName: Test_Schedule
+        startDate: "2023-05-25T05:00:00Z"
+        endDate: "2023-05-30T05:00:00Z"
+        type: "daily"
+        participants:
+          - username: "anand@ireachsol.com"
+            type: user

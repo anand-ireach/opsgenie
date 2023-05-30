@@ -1,0 +1,16 @@
+users:
+  - username: "anand@ireachsol.com"
+    fullName: "Anand"
+    role: "Admin"
+
+  - username: "testuser@ireachsol.comm"
+    fullName: "testuser"
+    role: "user"
+
+  - username: "testuser1@ireachsol.comm"
+    fullName: "testuser1"
+    role: "user"
+
+  - username: "testuser2@ireachsol.comm"
+    fullName: "testuser2"
+    role: "user"

@@ -1,0 +1,15 @@
+alert:
+  - name: postgres_alerts
+    message: "PostgreSQL alerts"
+    description: "Alerts of PostgreSQL"
+    priority: "P2"
+    # responders:
+    #   - username: anand@ireachsol.com
+    #     type: user
+    #   - name: postgres
+    #     type: team
+    tags: 
+      - postgreSQL storage full
+    details:
+      servername: postgreSQL
+      region: Oregon

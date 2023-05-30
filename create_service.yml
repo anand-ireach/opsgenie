@@ -1,0 +1,51 @@
+---
+- name: Create OpsGenie Services 
+  hosts: localhost
+  gather_facts: false
+  vars_files: 
+    - "vars/service_teams.yml"
+  tasks:
+    - name: Get List of all Existing Teams
+      uri:
+        method: GET
+        url: "https://api.opsgenie.com/v2/teams/{{ item.teamname }}?identifierType=name"
+        headers:
+          Authorization: "GenieKey {{ api_key }}"
+        return_content: yes
+      with_items:
+        - "{{ service_teams }}"
+      register: team_data
+
+    # - name: "Ansible | Print team_data"
+    #   debug:
+    #     msg:  "{{ existing_teams|default([item.content]) + [{ 'name': data }] }}"
+    #   with_items: "{{ team_data.results }}"
+        
+    # - name: extract team ID from existing team list
+    #   set_fact:
+    #     team_id: "{{ item.id }}"
+    #   with_items: "{{ team_data.results.data }}"
+
+    - name: create service
+      uri:
+        method: POST
+        url: https://api.opsgenie.com/v1/services
+        headers:
+          Content-Type: application/json
+          Authorization: "GenieKey {{ api_key }}"
+        body:
+          teamId: "2716e6ca-a22c-45b1-8c68-67b638e130c8"
+          name: "{{ item.service_name }}"
+          description: "{{ item.description|default(omit) }}"
+        body_format: json
+        return_content: true
+        status_code: 200,400
+      when: item.service_name is defined
+      with_items:
+        "{{ service_teams }}"
+      register: service_created
+      changed_when: service_created.status == 200
+
+    - name: "Ansible | Print service_created"
+      debug:
+        msg: "service_created: {{ service_created }}"

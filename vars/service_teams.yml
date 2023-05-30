@@ -1,0 +1,5 @@
+service_teams:
+    - name: "Adding Postgres team to service"
+      teamname: postgres
+      service_name: postgres_service
+      description: "This service integratedd with Postgres team"

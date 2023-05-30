@@ -1,0 +1,21 @@
+team:
+    - name: "postgres"
+      description: "Postgres DB alerts"
+      members: 
+        - role: "admin"
+        - user:
+            username: anand@ireachsol.com
+            
+    - name: "dataops"
+      description: "DataOps team alerts"
+      members: 
+        - role: "admin"
+        - user:
+            username: anand@ireachsol.com
+
+    - name: "monitoring"
+      description: "monitoring team alerts"
+      members: 
+        - role: "admin"
+        - user:
+            username: anand@ireachsol.com

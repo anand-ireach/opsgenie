@@ -1,0 +1,22 @@
+notification:
+      - name: "Notification_for_schedule"
+        user: anand@ireachsol.com
+        actionType: "create-alert"
+        enabled: 'true'
+        criteria:
+          type: "match-all"
+        order: 1
+        notificationTime : 
+          - "1-hour-ago"
+        # schedules: 
+        #   - name: "Test_Schedule"
+        #     type: schedule
+        repeat:
+          loopAfter: 2
+        # timeRestriction:
+        #   type: time-of-day
+        #   restriction: 
+        #     startHour: 3
+        #     startMin: 15
+        #     endHour: 5
+        #     endMin: 30
