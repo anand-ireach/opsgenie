@@ -14,3 +14,11 @@ users:
   - username: "testuser2@ireachsol.comm"
     fullName: "testuser2"
     role: "user"
+
+  - username: "testuser3@ireachsol.comm"
+    fullName: "testuser3"
+    role: "user"
+
+  - username: "ireach@cjestel.net"
+    fullName: "Ireach test user"
+    role: "user"

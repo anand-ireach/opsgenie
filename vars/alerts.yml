@@ -1,15 +1,15 @@
 alert:
   - name: postgres_alerts
-    message: "Alert creation testing"
-    description: "Alert creation testing"
-    priority: "P2"
+    message: "Alert creation testing-01"
+    description: "This is sample alert for demo"
+    priority: "P3"
     # responders:
     #   - username: anand@ireachsol.com
     #     type: user
     #   - name: postgres
     #     type: team
     tags: 
-      - postgreSQL storage full
+      - postgreSQL incident
     details:
       servername: postgreSQL
       region: Oregon
