@@ -1,7 +1,7 @@
 alert:
   - name: postgres_alerts
-    message: "PostgreSQL alerts"
-    description: "Alerts of PostgreSQL"
+    message: "Alert creation testing"
+    description: "Alert creation testing"
     priority: "P2"
     # responders:
     #   - username: anand@ireachsol.com
