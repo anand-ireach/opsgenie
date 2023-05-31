@@ -13,7 +13,7 @@
           Content-Type: application/json
           Authorization: "GenieKey {{ api_key }}"
         body:
-          name: "{{ item.rt_name  | default(omit) }}"
+          name: "{{ item.name  | default(omit) }}"
           startDate: "{{ item.startDate  | default(omit) }}"
           endDate: "{{ item.endDate  | default(omit) }}"
           type: "{{ item.type  | default(omit) }}"

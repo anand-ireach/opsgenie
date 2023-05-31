@@ -1,0 +1,17 @@
+escalation:
+    - name: "escalation_creation_test01"
+      ownerTeam: 
+        name: postgres
+      rules:
+        - delay: 
+            timeAmount: 1
+          recipient:
+            name: Test_Schedule
+            type: schedule
+          notifyType: "default"
+          condition: "if-not-acked"
+      # repeat:                        ### Escalation Repeat feature is not available for your current plan, please consider upgrading to a plan with Enhanced Escalations
+      #   waitInterval: 15
+      #   count: 5
+      #   resetRecipientStates: true
+      #   closeAlertAfterAll: true

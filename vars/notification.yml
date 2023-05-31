@@ -1,7 +1,7 @@
 notification:
       - name: "Notification_for_schedule"
         user: anand@ireachsol.com
-        actionType: "create-alert"
+        actionType: "add-note"
         enabled: 'true'
         criteria:
           type: "match-all"

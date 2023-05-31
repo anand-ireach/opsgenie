@@ -1,0 +1,30 @@
+---
+- name: Create OpsGenie Escalation
+  hosts: localhost
+  gather_facts: false
+  vars_files: 
+    - "vars/escalation.yml"
+  tasks:
+    - name: create escalation
+      uri:
+        method: POST
+        url: https://api.opsgenie.com/v2/escalations
+        headers:
+          Content-Type: application/json
+          Authorization: "GenieKey {{ api_key }}"
+        body:
+          name: "{{ item.name }}"
+          description: "{{ item.description | default(omit) }}"
+          rules: "{{ item.rules | default(omit) }}"
+          ownerTeam: "{{ item.ownerTeam | default(omit) }}"
+          repeat: "{{ item.repeat | default(omit) }}"
+        body_format: json
+        status_code: 201
+      with_items:
+        - "{{ escalation }}"
+      register: escalation_created
+      changed_when: escalation_created.status == 201
+
+    - name: "Ansible | Print escalation_created"
+      debug:
+        msg: "escalation_created: {{ escalation_created }}"
