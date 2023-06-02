@@ -1,0 +1,31 @@
+---
+- name: Create OpsGenie Incident
+  hosts: localhost
+  gather_facts: false
+  vars_files: 
+    - "vars/incident.yml"
+  tasks:
+    - name: create incident
+      uri:
+        method: POST
+        url: https://api.opsgenie.com/v1/incidents/create
+        headers:
+          Content-Type: application/json
+          Authorization: "GenieKey {{ api_key }}"
+        body:
+          message: "{{ item.message }}"
+          description: "{{ item.description | default(omit) }}"
+          responders: "{{ item.responders | default(omit) }}"
+          priority: "{{ item.priority | default(omit) }}"
+          notifyStakeholders: "{{ item.notifyStakeholders | default(omit) }}"
+          tags: "{{ item.tags | default(omit) }}"
+        body_format: json
+        status_code: 202
+      with_items:
+        - "{{ incident }}"
+      register: incident_created
+      changed_when: incident_created.status == 202
+
+    - name: "Ansible | Print incident_created"
+      debug:
+        msg: "incident_created: {{ incident_created }}"
