@@ -1,8 +1,8 @@
 alert:
   - name: postgres_alerts
-    message: "Alert creation testing-01"
+    message: "Alert creation testing-02"
     description: "This is sample alert for demo"
-    priority: "P3"
+    priority: "P2"
     # responders:
     #   - username: anand@ireachsol.com
     #     type: user

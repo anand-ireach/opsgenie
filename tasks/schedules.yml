@@ -1,0 +1,56 @@
+---
+- name: Reading variables file
+  include_vars:
+    name: file_vars
+    file: "vars/schedules.yml"
+  tags: schedules
+
+- set_fact:
+    schedule_vars: "{{ file_vars | combine(schedule_vars | default({})) }}"
+  tags: schedules
+
+- name: Get list of all schedules
+  uri:
+    method: GET
+    url: "https://api.opsgenie.com/v2/schedules"
+    headers:
+      Authorization: "GenieKey {{ api_key }}"
+    return_content: yes
+  register: existing_schedules
+  ignore_errors: true
+  tags: schedules
+
+- name: "Schedule | Create Schedule"
+  uri:
+    method: POST
+    url: https://api.opsgenie.com/v2/schedules
+    headers:
+      Content-Type: application/json
+      Authorization: "GenieKey {{ api_key }}"
+    body:
+      name: "{{ item.schedule_name }}"
+      description: "{{ item.description | default(omit) }}"
+      timezone: "{{ item.timezone | default(omit) }}"
+      enabled: "{{ item.enabled | default(omit) }}"
+      ownerTeam:
+        name: "{{ item.ownerTeam | default(omit) }}"
+    body_format: json
+    status_code: 201
+  with_items:
+    - "{{ schedule }}"
+  register: schedule_created
+  changed_when: schedule_created.status == 201
+
+- name: "Schedule | Print Created Schedule"
+  debug:
+    msg: "schedule_created: {{ schedule_created }}"
+
+#  Playbooks followed to delete teams
+- name: "Schedule | Deleting Schedule"
+  uri:
+    method: POST
+    url: https://api.opsgenie.com/v2/schedules/{{ schedulename }}?identifierType=name
+    headers:
+      Content-Type: application/json
+      Authorization: "GenieKey {{ api_key }}"
+  tags: delete

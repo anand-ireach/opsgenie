@@ -1,0 +1,14 @@
+schedules:
+    - name: "Schedule | Postgres team schedule"
+      schedule_name: "dataops_postgres_schedule_1"
+      enabled: true
+      ownerTeam: postgres
+      timezone: "UTC-5"
+      description: "Creating Schedule through Playbooks for team postgres"
+
+    - name: "Schedule | SQLServer team schedule"
+      schedule_name: "dataops_sql_schedule_1"
+      enabled: true
+      ownerTeam: sql
+      timezone: "UTC-5"
+      description: "Creating Schedule through Playbooks for team sql"

@@ -1,4 +1,0 @@
-schedule:
-    - name: "Test_Schedule"
-      ownerTeam: postgres
-      timezone: "UTC-5"

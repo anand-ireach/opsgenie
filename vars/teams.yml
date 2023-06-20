@@ -1,21 +1,46 @@
-team:
-    - name: "postgres"
+sync_delete: false
+teams:
+    - name: "dataops_postgres"
       description: "Postgres DB alerts"
       members: 
         - role: "admin"
-        - user:
-            username: anand@ireachsol.com
+          user:
+            username: testuser@ireachsol.com
             
-    - name: "dataops"
+    - name: "dataops_sql"
       description: "DataOps team alerts"
       members: 
         - role: "admin"
-        - user:
-            username: anand@ireachsol.com
+          user:
+            username: testuser1@ireachsol.com
 
-    - name: "monitoring"
-      description: "monitoring team alerts"
+sync_delete: true
+teams:
+    - name: "dataops_postgres"
+      description: "Postgres DB alerts"
       members: 
         - role: "admin"
-        - user:
-            username: anand@ireachsol.com
+          user:
+            username: testuser@ireachsol.com
+            
+    - name: "dataops_sql"
+      description: "DataOps team alerts"
+      members: 
+        - role: "admin"
+          user:
+            username: testuser1@ireachsol.com
+
+
+    # - name: "dataops_dba"
+    #   description: "monitoring team alerts"
+    #   members: 
+    #     - role: "admin"
+    #       user:
+    #         username: testuser2@ireachsol.com
+
+    # - name: "devops"
+    #   description: "monitoring team alerts"
+    #   members: 
+    #     - role: "admin"
+    #       user:
+    #         username: anand@cjestel.net

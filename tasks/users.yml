@@ -1,0 +1,102 @@
+---
+- name: Reading variables file
+  include_vars:
+    name: file_vars
+    file: "vars/users.yml"
+  tags: users
+
+- set_fact:
+    user_vars: "{{ file_vars | combine(user_vars | default({})) }}"
+  tags: users
+
+- name: Get list of all Users
+  uri:
+    method: GET
+    url: "https://api.opsgenie.com/v2/users"
+    headers:
+      Authorization: "GenieKey {{ api_key }}"
+    return_content: yes
+  register: existing_users
+  ignore_errors: true
+  tags: users
+
+- name: "Users | echos"
+  debug: 
+    msg: "users_diff :{{ existing_users.json.data | map(attribute='tags') | list }}"
+  tags: users
+  
+# Playbooks followed to create Users
+- name: Create a list of all existing user names
+  set_fact:
+    existing_names: "{{ existing_users.json.data | map(attribute='username') | list }}"
+  tags: create
+
+- name: Create a list of all existing user names
+  set_fact:
+    existing_users: "{{ existing_users.json.data | map(attribute='username') | list }}"
+    my_users: "{{ file_vars.users | map(attribute='username') | list }}"
+  tags: users
+
+- name: get the names that exist in teams but not in existing_teams
+  set_fact:
+    users_not_in_my_dict: "{{ existing_users | difference(my_users) }}"
+  tags: users
+
+- name: "Users | echos"
+  debug: 
+    msg: "users_diff :{{ users_not_in_my_dict }}"
+  #when: item not in users_not_in_my_dict
+  #with_items:
+  #  - "{{ my_users }}"
+  tags: users
+
+- name: create users if they dont already exist
+  uri:
+    method: POST
+    url: https://api.opsgenie.com/v2/users
+    headers:
+      Content-Type: application/json
+      Authorization: "GenieKey {{ api_key }}"
+    body:
+      username: "{{ item.username }}"
+      fullName: "{{ item.fullName }}"
+      role:
+        name: "{{ item.role }}"
+      skypeUsername: "{{ item.skypeUsername | default() }}"
+      timeZone: "{{ item.timezone | default(omit) }}"
+      locale: "{{ item.locale | default(omit) }}"
+      userAddress:
+        country: "{{ item.country | default(omit) }}"
+        state: "{{ item.state | default(omit) }}"
+        city: "{{ item.city | default(omit) }}"
+        line: "{{ item.line | default(omit) }}"
+        zipCode: "{{ item.zipCode | default(omit) }}"
+      details: "{{ item.details | default(omit) }}"
+      tags: "{{ item.tag | default(omit) }}"
+    body_format: json
+    status_code: 201
+  when: item.username not in existing_names
+  with_items:
+    - "{{ file_vars.users }}"
+  register: user_created
+  changed_when: user_created.status == 201
+  tags: create
+
+# Playbooks followed to delete Users
+- name: "Users | List of Users"
+  debug:
+    msg: "existed_Users: {{ existing_users }}"
+  tags: delete
+
+- name: "Users | Delete User if not in vars"
+  uri:
+    method: DELETE
+    url: https://api.opsgenie.com/v2/users/{{ item }}
+    headers:
+      Content-Type: application/json
+      Authorization: "GenieKey {{ api_key }}"
+  when: item not in users_not_in_my_dict
+  with_items:
+    - "{{ my_users }}"
+  register: user_created
+  tags: delete

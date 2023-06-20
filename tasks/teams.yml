@@ -1,0 +1,80 @@
+---
+- name: Reading variables file
+  include_vars:
+    name: file_vars
+    file: "vars/teams.yml"
+  tags: teams
+
+- name: Get list of all Teams
+  uri:
+    method: GET
+    url: "https://api.opsgenie.com/v2/teams"
+    headers:
+      Authorization: "GenieKey {{ api_key }}"
+    return_content: yes
+  register: existing_teams
+  ignore_errors: true
+  tags: teams
+
+# Playbooks followed create teams
+- name: "Team | Create a list of all team names"
+  set_fact:
+    existing_team_name: "{{ existing_teams.json.data | map(attribute='name') | list }}"
+  tags: create
+
+- name: "Team | Print a list of existing team names"
+  debug:
+    msg: "existing_team_name: {{ existing_team_name }}"
+  tags: create
+
+- name: "Team | Create team if it doesnt exist"
+  uri:
+    method: POST
+    url: https://api.opsgenie.com/v2/teams
+    headers:
+      Content-Type: application/json
+      Authorization: "GenieKey {{ api_key }}"
+    body:
+      name: "{{ item.name }}"
+      description: "{{ item.description | default(omit) }}"
+      members: "{{ item.members | default(omit) }}"
+    body_format: json
+    status_code: 201
+  when: item.name not in existing_team_name
+  with_items:
+    - "{{ file_vars.teams }}"
+  register: team_created
+  changed_when: team_created.status == 201
+  tags: create
+
+#  Playbooks followed to delete teams
+- name: "Team | Create a list of all DataOps team names"
+  set_fact:
+    existing_dataops_teams: "{{ existing_teams.json.data | selectattr('name', 'search', 'dataops', ignorecase=True) | map(attribute='name') | list }}"
+    my_teams: "{{ file_vars.teams | map(attribute='name') | list }}"
+  tags: teams
+
+- name: get the names that exist in teams but not in existing_teams
+  set_fact:
+    teams_not_in_my_dict: "{{ existing_dataops_teams | difference(my_teams) }}"
+  tags: teams
+
+- name: "Team | List of DataOps teams"
+  debug:
+    msg: "existing_dataops_teams: {{ existing_dataops_teams }}"
+  tags: delete
+
+- name: "Team | Delete DataOps team if not vars"
+  uri:
+    method: DELETE
+    url: https://api.opsgenie.com/v2/teams/{{ item.name }}?identifierType=name
+    headers:
+      Content-Type: application/json
+      Authorization: "GenieKey {{ api_key }}"
+  when: 
+    - item.name in teams_not_in_my_dict
+    - sync_delete: true
+  with_items:
+    - "{{ file_vars.teams }}"
+  register: user_created
+  tags: delete
