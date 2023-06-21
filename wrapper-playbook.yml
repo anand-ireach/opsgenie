@@ -5,24 +5,36 @@
   tasks:
     - name: User Management
       include_tasks: tasks/users.yml
-      tags: users
+      tags: 
+        - users
+        - general
 
     - name: Team Management
       include_tasks: tasks/teams.yml
-      tags: teams
+      tags: 
+        - teams
+        - general
 
     - name: Manage Team Members
       include_tasks: tasks/team_members.yml
-      tags: members
+      tags: 
+        - members
+        - general
 
     - name: Manage Schedules
       include_tasks: tasks/schedules.yml
-      tags: schedules
+      tags: 
+        - schedules
+        - general
 
     - name: Manage Schedules Rotations
       include_tasks: tasks/schedule_rotations.yml
-      tags: rotations
+      tags: 
+        - rotations
+        - general
 
     - name: Manage Notifications
       include_tasks: tasks/notifications.yml
-      tags: notifications
+      tags: 
+        - notifications
+        - general
