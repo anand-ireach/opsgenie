@@ -2,7 +2,7 @@
 - name: Reading variables file
   include_vars:
     name: file_vars
-    file: "vars/users.yml"
+    file: "vars/opsgenie.yml"
   tags: users
 
 - set_fact:

@@ -2,7 +2,7 @@
 - name: Reading variables file
   include_vars:
     name: file_vars
-    file: "vars/teams.yml"
+    file: "vars/opsgenie.yml"
   tags: teams
 
 - name: Get list of all Teams

@@ -3,7 +3,7 @@
   hosts: localhost
   gather_facts: false
   vars_files: 
-    - "vars/service_teams.yml"
+    - "vars/opsgenie.yml"
   tasks:
     - name: Get List of all Existing Teams
       uri:
