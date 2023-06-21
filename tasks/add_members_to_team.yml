@@ -1,56 +1,66 @@
-- name: Create OpsGenie Teams
-  hosts: localhost
-  tasks:
-    - name: Get List of all Existing Teams
-      uri:
-        method: GET
-        url: "https://api.opsgenie.com/v2/teams"
-        headers:
-          Authorization: "GenieKey {{ api_key }}"
-        return_content: yes
-      register: team_id
-      ignore_errors: true
+---
+- name: Reading variables file
+  include_vars:
+    name: file_vars
+    file: "vars/opsgenie.yml"
+  tags: members
 
-    - name: extract team ID from existing team list
-      set_fact:
-        existing_teams: "{{ existing_teams|default([])+ [{ 'name': item.name, 'id': item.id}] }}"
-      with_items: "{{ team_id.json.data }}"
+- name: Get List of all Existing Teams
+  uri:
+    method: GET
+    url: "https://api.opsgenie.com/v2/teams"
+    headers:
+      Authorization: "GenieKey {{ api_key }}"
+    return_content: yes
+  register: team_id
+  ignore_errors: true
+  tags: members
 
+- name: extract team ID from existing team list
+  set_fact:
+    existing_teams: "{{ existing_teams|default([])+ [{ 'name': item.name, 'id': item.id}] }}"
+  with_items: "{{ team_id.json.data }}"
+  tags: members
 
-    - name: get the lists of team names per list
-      set_fact:
-        teamlist_1: "{{ teams | map(attribute='name') | list }}"
-        teamlist_2: "{{ existing_teams | map(attribute='name') | list }}"
+- name: get the lists of team names per list
+  set_fact:
+    teamlist_1: "{{ teams | map(attribute='name') | list }}"
+    teamlist_2: "{{ existing_teams | map(attribute='name') | list }}"
+  tags: members
 
-    - name: get the names that exist in teams but not in existing_teams
-      set_fact:
-        names_not_in_my_dict: "{{ teamlist_1 | difference(teamlist_2) }}"
+- name: get the names that exist in teams but not in existing_teams
+  set_fact:
+    names_not_in_my_dict: "{{ teamlist_1 | difference(teamlist_2) }}"
+  tags: members
 
-    - name: merge the dictionaries when the name is matched
-      set_fact:
-        all: "{{ all|default([]) + [item[0] | combine(item[1])] }}"
-      when: item[0].name == item[1].name
-      loop: "{{ query('nested', teams, existing_teams) }}"
+- name: merge the dictionaries when the name is matched
+  set_fact:
+    all: "{{ all|default([]) + [item[0] | combine(item[1])] }}"
+  when: item[0].name == item[1].name
+  loop: "{{ query('nested', teams, existing_teams) }}"
+tags: members
 
-    - name: add all the teams elements that dont have entry in existing_teams
-      set_fact:
-        all: "{{ all + [item] }}"
-      when: item.name in names_not_in_my_dict
-      loop: "{{ teams }}"
+- name: add all the teams elements that dont have entry in existing_teams
+  set_fact:
+    all: "{{ all + [item] }}"
+  when: item.name in names_not_in_my_dict
+  loop: "{{ teams }}"
+tags: members
 
-    - name: add users to group
-      uri:
-        method: PATCH
-        url: "https://api.opsgenie.com/v2/teams/{{ item.id }}"
-        headers:
-          Content-Type: application/json
-          Authorization: "GenieKey {{ api_key }}"
-        body:
-          name: "{{ item.name }}"
-          description: "{{ item.description }}"
-          members: "{{ item.users }}"
-        body_format: json
-        return_json: true
-      with_items:
-        - "{{ all }}"
-      register: team_updated
+- name: add users to group
+  uri:
+    method: PATCH
+    url: "https://api.opsgenie.com/v2/teams/{{ item.id }}"
+    headers:
+      Content-Type: application/json
+      Authorization: "GenieKey {{ api_key }}"
+    body:
+      name: "{{ item.name }}"
+      description: "{{ item.description }}"
+      members: "{{ item.users }}"
+    body_format: json
+    return_json: true
+  with_items:
+    - "{{ all }}"
+  register: team_updated
+tags: members
