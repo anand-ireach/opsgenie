@@ -20,12 +20,12 @@
 - name: "Team | Create a list of all team names"
   set_fact:
     existing_team_name: "{{ existing_teams.json.data | map(attribute='name') | list }}"
-  tags: create
+  tags: teams
 
 - name: "Team | Print a list of existing team names"
   debug:
     msg: "existing_team_name: {{ existing_team_name }}"
-  tags: create
+  tags: teams
 
 - name: "Team | Create team if it doesnt exist"
   uri:

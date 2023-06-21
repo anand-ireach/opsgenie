@@ -2,13 +2,26 @@ schedules:
     - name: "Schedule | Postgres team schedule"
       schedule_name: "dataops_postgres_schedule_1"
       enabled: true
-      ownerTeam: postgres
+      ownerTeam: dataops_postgres
       timezone: "UTC-5"
       description: "Creating Schedule through Playbooks for team postgres"
-
+        
     - name: "Schedule | SQLServer team schedule"
       schedule_name: "dataops_sql_schedule_1"
       enabled: true
-      ownerTeam: sql
+      ownerTeam: dataops_sql
       timezone: "UTC-5"
       description: "Creating Schedule through Playbooks for team sql"
+
+rotations:
+      - name: "Postgres_test_schedule_rotation_1"
+        scheduleName: "dataops_postgres_schedule_1"
+        startDate: "2023-06-19T05:00:00Z"
+        endDate: "2023-06-30T05:00:00Z"
+        type: "daily"
+        participants:
+          - username: "testuser1@ireachsol.com"
+            type: user
+            
+          - username: "testuser1@ireachsol.com"
+            type: user
