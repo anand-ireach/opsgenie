@@ -82,21 +82,21 @@
   changed_when: user_created.status == 201
   tags: create
 
-# Playbooks followed to delete Users
-- name: "Users | List of Users"
-  debug:
-    msg: "existed_Users: {{ existing_users }}"
-  tags: delete
+# # Playbooks followed to delete Users
+# - name: "Users | List of Users"
+#   debug:
+#     msg: "existed_Users: {{ existing_users }}"
+#   tags: delete
 
-- name: "Users | Delete User if not in vars"
-  uri:
-    method: DELETE
-    url: https://api.opsgenie.com/v2/users/{{ item }}
-    headers:
-      Content-Type: application/json
-      Authorization: "GenieKey {{ api_key }}"
-  when: item not in users_not_in_my_dict
-  with_items:
-    - "{{ my_users }}"
-  register: user_created
-  tags: delete
+# - name: "Users | Delete User if not in vars"
+#   uri:
+#     method: DELETE
+#     url: https://api.opsgenie.com/v2/users/{{ item }}
+#     headers:
+#       Content-Type: application/json
+#       Authorization: "GenieKey {{ api_key }}"
+#   when: item not in users_not_in_my_dict
+#   with_items:
+#     - "{{ my_users }}"
+#   register: user_created
+#   tags: delete
