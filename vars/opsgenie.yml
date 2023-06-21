@@ -1,29 +1,110 @@
 sync_delete: false
 
 users:
-  - username: "anand@cjestel.net"
-    fullName: "Anand"
+  - username: "charles.estel@experityhealth.com"
+    fullName: "Charles Estel"
     role: "Admin"
     tags:
-      - "dataops"
+      - "DataOps"
 
-  - username: "testuser@ireachsol.com"
-    fullName: "testuser"
+  - username: "guy.kayembe@experityhealth.com"
+    fullName: "Guy Kayembe"
+    role: "Admin"
+    tags:
+      - "DataOps"
+
+  - username: "jayachand.chennupati@experityhealth.com"
+    fullName: "Jayachand Chennupati"
     role: "user"
     tags:
-      - "dataops"
+      - "DataOps"
 
-  - username: "testuser1@ireachsol.com"
-    fullName: "testuser1"
+  - username: "pablo.gutierrez@experityhealth.com"
+    fullName: "Pablo Gutierrez"
     role: "user"
     tags:
-      - "dataops"
+      - "DataOps"
 
-  - username: "testuser2@ireachsol.com"
-    fullName: "testuser2"
-    role: "user"
-    tags:
-      - "dataops"
+teams:
+    - name: "DataOps"
+      description: "DataOps team centralized team for alerting (managed by ansible)"
+
+team_members:
+    - name: "Adding CJ Estel to DataOps team"
+      teamname: DataOps
+      role: admin
+      user:
+        username: charles.estel@experityhealth.com
+
+    - name: "Adding Guy Kayembe to DataOps team"
+      teamname: DataOps
+      role: admin
+      user:
+        username: guy.kayembe@experityhealth.com
+
+    - name: "Adding Jayachand Chennupati to DataOps team"
+      teamname: DataOps
+      role: user
+      user:
+        username: jayachand.chennupati@experityhealth.com
+
+    - name: "Adding Pablo Gutierrez Fluchaire to DataOps team"
+      teamname: DataOps
+      role: user
+      user:
+        username: pablo.gutierrez@experityhealth.com
+
+schedules:
+
+    - name: "Schedule | DataOps On Call Primary"
+      schedule_name: "DataOps_on_call_primary"
+      enabled: true
+      ownerTeam: DataOps
+      timezone: "UTC-5"
+      description: "Creating DataOps On Call Primary Schedule"
+
+    - name: "Schedule | DataOps On Call Secondary"
+      schedule_name: "DataOps_on_call_secondary"
+      enabled: true
+      ownerTeam: DataOps
+      timezone: "UTC-5"
+      description: "Creating DataOps On Call Secondary Schedule"
+
+rotations:
+      - name: "DataOps_on_call_primary_rotation"
+        scheduleName: "DataOps_on_call_primary"
+        startDate: "2023-06-19T05:00:00Z"
+        endDate: "2023-06-30T05:00:00Z"
+        type: "daily"
+        participants:
+          - username: "charles.estel@experityhealth.com"
+            type: user
+            
+          - username: "guy.kayembe@experityhealth.com"
+            type: user
+
+      - name: "DataOps_on_call_secondary_rotation"
+        scheduleName: "DataOps_on_call_secondary"
+        startDate: "2023-06-19T05:00:00Z"
+        endDate: "2023-06-30T05:00:00Z"
+        type: "daily"
+        participants:
+          - username: "guy.kayembe@experityhealth.com"
+            type: user
+
+          - username: "charles.estel@experityhealth.com"
+            type: user
+            
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -63,89 +144,7 @@ notification:
       timezone: "UTC-5"
       description: "Creating Schedule through Playbooks for team sql"
 
-rotations:
-      - name: "Postgres_test_schedule_rotation_1"
-        scheduleName: "dataops_postgres_schedule_1"
-        startDate: "2023-06-19T05:00:00Z"
-        endDate: "2023-06-30T05:00:00Z"
-        type: "daily"
-        participants:
-          - username: "testuser1@ireachsol.com"
-            type: user
-            
-          - username: "testuser1@ireachsol.com"
-            type: userteam_members:
-    - name: "Adding CJ to postgres team"
-      teamname: postgres
-      role: admin
-      user: 
-        username: opsgenie@cjestel.net
 
-    - name: "Adding anand to postgres team"
-      teamname: dataops
-      role: admin
-      user: 
-        username: anand@ireachsol.com
-
-
-teams:
-    - name: "DataOps"
-      description: "DataOps team centralized team for alerting (managed by ansible)"
-
-    - name: "dataops_postgres"
-      description: "Postgres DB alerts"
-      members: 
-        - role: "admin"
-          user:
-            username: testuser@ireachsol.com
-            
-    - name: "dataops_sql"
-      description: "DataOps team alerts"
-      members: 
-        - role: "admin"
-          user:
-            username: testuser1@ireachsol.com
-
-sync_delete: true
-teams:
-    - name: "dataops_postgres"
-      description: "Postgres DB alerts"
-      members: 
-        - role: "admin"
-          user:
-            username: testuser@ireachsol.com
-            
-    - name: "dataops_sql"
-      description: "DataOps team alerts"
-      members: 
-        - role: "admin"
-          user:
-            username: testuser1@ireachsol.com
-
-team_members:
-    - name: "Adding CJ Estel to DataOps team"
-      teamname: DataOps
-      role: admin
-      user:
-        username: charles.estel@experityhealth.com
-
-    - name: "Adding Guy Kayembe to DataOps team"
-      teamname: DataOps
-      role: admin
-      user:
-        username: guy.kayembe@experityhealth.com
-
-    - name: "Adding Jayachand Chennupati to DataOps team"
-      teamname: DataOps
-      role: user
-      user:
-        username: jayachand.chennupati@experityhealth.com
-
-    - name: "Adding Pablo Gutierrez Fluchaire to DataOps team"
-      teamname: DataOps
-      role: user
-      user:
-        username: pablo.gutierrez@experityhealth.com
 escalation:
     - name: "escalation_creation_test01"
       ownerTeam: 
