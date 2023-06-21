@@ -3,7 +3,7 @@
   hosts: localhost
   gather_facts: false
   vars_files:
-    - "vars/alerts.yml"
+    - "vars/opsgenie.yml"
   tasks:
     - name: Alert_creation_test-01
       uri:

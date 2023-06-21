@@ -2,7 +2,7 @@
 - name: Reading variables file
   include_vars:
     name: file_vars
-    file: "vars/schedules.yml"
+    file: "vars/opsgenie.yml"
   tags: schedules
 
 - name: Get list of all schedules
