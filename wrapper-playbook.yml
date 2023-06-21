@@ -12,13 +12,13 @@
 
     - name: Team Management
       include_tasks: tasks/teams.yml
-      tags:
+      tags: 
         - teams
         - general
 
     - name: Manage Team Members
       include_tasks: tasks/add_members_to_team.yml
-      tags:
+      tags: 
         - members
         - general
 
@@ -29,7 +29,7 @@
         - general
 
     - name: Manage Notifications
-      include_tasks: tasks/create_notifications.yml
+      include_tasks: tasks/create_notification.yml
       tags:
         - notifications
         - general
