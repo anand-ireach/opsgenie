@@ -17,25 +17,25 @@
         - general
 
     - name: Manage Team Members
-      include_tasks: tasks/team_members.yml
+      include_tasks: tasks/add_members_to_team.yml
       tags:
         - members
         - general
 
-    - name: Manage Schedules
-      include_tasks: tasks/schedules.yml
-      tags:
-        - schedules
-        - general
+#    - name: Manage Schedules
+#      include_tasks: tasks/schedules.yml
+#      tags:
+#        - schedules
+#        - general
 
-    - name: Manage Schedules Rotations
-      include_tasks: tasks/schedule_rotations.yml
-      tags:
-        - rotations
-        - general
+#    - name: Manage Schedules Rotations
+#      include_tasks: tasks/schedule_rotations.yml
+#      tags:
+#        - rotations
+#        - general
 
-    - name: Manage Notifications
-      include_tasks: tasks/notifications.yml
-      tags:
-        - notifications
-        - general
+#    - name: Manage Notifications
+#      include_tasks: tasks/notifications.yml
+#      tags:
+#        - notifications
+#        - general
