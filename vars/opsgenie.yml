@@ -1,3 +1,32 @@
+sync_delete: false
+
+users:
+  - username: "anand@cjestel.net"
+    fullName: "Anand"
+    role: "Admin"
+    tags:
+      - "dataops"
+
+  - username: "testuser@ireachsol.com"
+    fullName: "testuser"
+    role: "user"
+    tags:
+      - "dataops"
+
+  - username: "testuser1@ireachsol.com"
+    fullName: "testuser1"
+    role: "user"
+    tags:
+      - "dataops"
+
+  - username: "testuser2@ireachsol.com"
+    fullName: "testuser2"
+    role: "user"
+    tags:
+      - "dataops"
+
+
+
 notification:
       - name: "Notification_for_schedule"
         user: anand@ireachsol.com
@@ -59,8 +88,10 @@ rotations:
         username: anand@ireachsol.com
 
 
-sync_delete: false
 teams:
+    - name: "DataOps"
+      description: "DataOps team centralized team for alerting (managed by ansible)"
+
     - name: "dataops_postgres"
       description: "Postgres DB alerts"
       members: 
@@ -91,43 +122,30 @@ teams:
           user:
             username: testuser1@ireachsol.com
 
+team_members:
+    - name: "Adding CJ Estel to DataOps team"
+      teamname: DataOps
+      role: admin
+      user:
+        username: charles.estel@experityhealth.com
 
-    # - name: "dataops_dba"
-    #   description: "monitoring team alerts"
-    #   members: 
-    #     - role: "admin"
-    #       user:
-    #         username: testuser2@ireachsol.com
+    - name: "Adding Guy Kayembe to DataOps team"
+      teamname: DataOps
+      role: admin
+      user:
+        username: guy.kayembe@experityhealth.com
 
-    # - name: "devops"
-    #   description: "monitoring team alerts"
-    #   members: 
-    #     - role: "admin"
-    #       user:
-    #         username: anand@cjestel.netusers:
-  - username: "anand@cjestel.net"
-    fullName: "Anand"
-    role: "Admin"
-    tags:
-      - "dataops"
+    - name: "Adding Jayachand Chennupati to DataOps team"
+      teamname: DataOps
+      role: user
+      user:
+        username: jayachand.chennupati@experityhealth.com
 
-  - username: "testuser@ireachsol.com"
-    fullName: "testuser"
-    role: "user"
-    tags:
-      - '"dataops"'
-
-  - username: "testuser1@ireachsol.com"
-    fullName: "testuser1"
-    role: "user"
-    tags:
-      - '"dataops"'
-
-  - username: "testuser2@ireachsol.com"
-    fullName: "testuser2"
-    role: "user"
-    tags:
-      - '"dataops"'
+    - name: "Adding Pablo Gutierrez Fluchaire to DataOps team"
+      teamname: DataOps
+      role: user
+      user:
+        username: pablo.gutierrez@experityhealth.com
 escalation:
     - name: "escalation_creation_test01"
       ownerTeam: 
