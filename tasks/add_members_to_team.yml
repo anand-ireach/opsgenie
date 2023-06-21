@@ -44,7 +44,7 @@ tags: members
   set_fact:
     all: "{{ all + [item] }}"
   when: item.name in names_not_in_my_dict
-  loop: "{{ teams }}"
+  loop: "{{ file_vars.teams }}"
 tags: members
 
 - name: add users to group
@@ -61,6 +61,6 @@ tags: members
     body_format: json
     return_json: true
   with_items:
-    - "{{ all }}"
+    - "{{ file_vars.all }}"
   register: team_updated
 tags: members
