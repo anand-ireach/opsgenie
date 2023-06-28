@@ -79,8 +79,8 @@ schedules:
 rotations:
       - name: "DataOps_on_call_primary_rotation"
         scheduleName: "DataOps_on_call_primary"
-        startDate: "2023-06-19T05:00:00Z"
-        endDate: "2023-06-30T05:00:00Z"
+        startDate: "2023-06-25T05:00:00Z"
+        endDate: "2023-07-25T05:00:00Z"
         type: "daily"
         participants:
           - username: "charles.estel@cjestel.net"
@@ -88,17 +88,23 @@ rotations:
             
           - username: "guy.kayembe@cjestel.net"
             type: user
+          
+          - username: "jayachand.chennupati@cjestel.net"
+            type: user
 
       - name: "DataOps_on_call_secondary_rotation"
         scheduleName: "DataOps_on_call_secondary"
-        startDate: "2023-06-19T05:00:00Z"
-        endDate: "2023-06-30T05:00:00Z"
+        startDate: "2023-06-28T05:00:00Z"
+        endDate: "2023-07-28T05:00:00Z"
         type: "daily"
         participants:
           - username: "guy.kayembe@cjestel.net"
             type: user
 
           - username: "charles.estel@cjestel.net"
+            type: user
+
+          - username: "anand@cjestel.net"
             type: user
             
 notification:

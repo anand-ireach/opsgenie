@@ -2,7 +2,7 @@
 - name: Reading variables file
   include_vars:
     name: file_vars
-    file: "vars/opsgenie.yml"
+    file: "vars/opsgenie_test.yml"
   tags: schedules
 
 - name: Get list of all schedules
@@ -16,7 +16,7 @@
   ignore_errors: true
   tags: schedules
 
-- name: "Schedule | Create a list of all team names"
+- name: "Schedule | Create a list of all names"
   set_fact:
     existing_schedule_names: "{{  existing_schedules.json.data | map(attribute='name') | list }}"
   tags: schedules
@@ -79,39 +79,40 @@
   tags: schedules
 
 # Schedule Rotations
-- name: create schedule rotation
+# List rotations
+- name: Get list of all rotations
   uri:
-    method: POST
-    url: https://api.opsgenie.com/v2/schedules/{{ item.scheduleName }}/rotations?scheduleIdentifierType=name
+    method: GET
+    url: "https://api.opsgenie.com/v2/schedules/{{ item }}/rotations?scheduleIdentifierType=name"
+    headers:
+      Authorization: "GenieKey {{ api_key }}"
+    return_content: yes
+  with_items:
+    - "{{ existing_schedule_names }}"
+  register: existing_rotations
+  ignore_errors: true
+  tags: schedules
+
+# Update Rotations
+- name: update schedule rotation
+  uri:
+    method: PATCH
+    url: https://api.opsgenie.com/v2/schedules/{{ item.1.scheduleName }}/rotations/{{ item.0.json.data.0.id }}?scheduleIdentifierType=name
     headers:
       Content-Type: application/json
       Authorization: "GenieKey {{ api_key }}"
     body:
-      name: "{{ item.name  | default(omit) }}"
-      startDate: "{{ item.startDate  | default(omit) }}"
-      endDate: "{{ item.endDate  | default(omit) }}"
-      type: "{{ item.type  | default(omit) }}"
-      length: "{{ item.length  | default(omit) }}"
-      participants: "{{ item.participants | default(omit) }}"
+      name: "{{ item.1.name  | default(omit) }}"
+      startDate: "{{ item.1.startDate  | default(omit) }}"
+      endDate: "{{ item.1.endDate  | default(omit) }}"
+      type: "{{ item.1.type  | default(omit) }}"
+      length: "{{ item.1.length  | default(omit) }}"
+      participants: "{{ item.1.participants | default(omit) }}"
     body_format: json
-    status_code: 201
-  with_items:
+    status_code: 200
+  when: item.0.item == item[1]['scheduleName']
+  with_nested:
+    - "{{ existing_rotations.results }}"
     - "{{ file_vars.rotations }}"
-  register: rotation_created
-  changed_when: rotation_created.status == 201
   ignore_errors: true
   tags: schedules
-
-# - name: "Schedule | Print Created Schedule"
-#   debug:
-#     msg: "schedule_created: {{ schedule_created }}"
-
-# #  Playbooks followed to delete teams
-# - name: "Schedule | Deleting Schedule"
-#   uri:
-#     method: POST
-#     url: https://api.opsgenie.com/v2/schedules/{{ schedulename }}?identifierType=name
-#     headers:
-#       Content-Type: application/json
-#       Authorization: "GenieKey {{ api_key }}"
-#   tags: delete
